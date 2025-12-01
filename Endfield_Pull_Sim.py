@@ -118,7 +118,7 @@ def gacha_simulation():
         total_4_totals.append(total_4_star_count)
         # print(f"Iteration {interation}")
 
-
+    # Average counts of operators across all iterations
     mean_limited_6 = np.mean(limited_6_totals)
     mean_6 = np.mean(total_6_totals)
     mean_5 = np.mean(total_5_totals)
@@ -128,6 +128,7 @@ def gacha_simulation():
 
 mean_limited_6, mean_6, mean_5, mean_4 = gacha_simulation()
 
+# Calculate arsenal token count based on returned averages
 arsenal_6 = mean_6 * SIX_STAR_ARSENAL
 arsenal_5 = mean_5 * FIVE_STAR_ARSENAL
 arsenal_4 = mean_4 * FOUR_STAR_ARSENAL
