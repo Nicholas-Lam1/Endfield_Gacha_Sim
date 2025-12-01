@@ -10,8 +10,8 @@ LIMITED_PITY_INTERVAL = 120
 DUPLICATE_PITY_INTERVAL = 240
 FIVE_STAR_RATE = 0.08
 GUARANTEED_5_STAR_INTERVAL = 10
-PULL_QUANTITY = 
-SAMPLE_SIZE = 500000
+PULL_QUANTITY = 120
+SAMPLE_SIZE = 100000
 
 SIX_STAR_ARSENAL = 2000
 FIVE_STAR_ARSENAL = 200
@@ -54,7 +54,7 @@ def gacha_simulation():
             pity_counter += 1
 
             # Add limited 6* for every 240 pulls
-            if pulls % DUPLICATE_PITY_INTERVAL == 0 and pulls != 0:
+            if pulls % DUPLICATE_PITY_INTERVAL == 0:
                 limited_6_star_count += 1
                 total_6_star_count += 1
                 pity_rate = SOFT_PITY_BASE_RATE
