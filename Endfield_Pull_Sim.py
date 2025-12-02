@@ -29,6 +29,7 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
 
     Notes:
     Hard-pity is always 50/50
+    If rate-up operator is pulled before 120 limited pity, the pity is lost
     6 copies required to get and then max pot character.
     """
 
@@ -42,7 +43,7 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
     if arsenal_quantity is not None:
         arsenal_quantity *= 1980
 
-    for iteration in range(sample_size):
+    for _ in range(sample_size):
         pulls = 0
         got_limited = False
         limited_6_star_count = 0
@@ -54,6 +55,7 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
         arsenal_counter = 0
         pity_rate = SOFT_PITY_BASE_RATE
 
+        # Select looping exit condition based on input
         if pull_quantity is not None:
             loop_exit_condition = lambda: pulls >= pull_quantity
         elif pot_quantity is not None:
@@ -63,11 +65,6 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
         else:
             raise ValueError("At least one of pull_quantity, pot_quantity, or arsenal_quantity must be provided.")
 
-        # while limited_6_star_count < pot_quantity:
-        #   pulls += 1 
-        # while arsenal_counter < arsenal_quantity:
-        #   pulls += 1
-        # for pulls in range(1, pull_quantity + 1):
         while not loop_exit_condition():
             pulls += 1
             pity_counter += 1
@@ -138,13 +135,13 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
                         guaranteed_5_star_counter += 1
                         arsenal_counter += 20
 
+        # Append totals to lists
         limited_6_totals.append(limited_6_star_count)
         total_6_totals.append(total_6_star_count)
         total_5_totals.append(total_5_star_count)
         total_4_totals.append(total_4_star_count)
         arsenal_totals.append(arsenal_counter)
         pull_totals.append(pulls)
-        # print(f"Iteration {interation}")
 
     # Average counts of operators across all iterations
     mean_limited_6 = np.mean(limited_6_totals)
@@ -154,6 +151,7 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
     mean_arsenal = np.mean(arsenal_totals)
     mean_pulls = np.mean(pull_totals)
 
+    # Turn arsenal pulls into 10x arsenal pulls
     mean_arsenal_pulls = mean_arsenal / ARSENAL_PULL_COST
 
     print()
