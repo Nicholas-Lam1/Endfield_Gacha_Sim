@@ -1,19 +1,6 @@
 import random
 import numpy as np
-
-# Constants
-SOFT_PITY_BASE_RATE = 0.008  
-SOFT_PITY_INCREMENT = 0.05
-HARD_PITY_INTERVAL = 80
-LIMITED_PITY_INTERVAL = 120
-DUPLICATE_PITY_INTERVAL = 240
-FIVE_STAR_RATE = 0.08
-GUARANTEED_5_STAR_INTERVAL = 10
-
-SIX_STAR_ARSENAL = 2000
-FIVE_STAR_ARSENAL = 200
-FOUR_STAR_ARSENAL = 20
-ARSENAL_PULL_COST = 1980
+import time
 
 def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity = None, sample_size = 100000):
     """
@@ -32,6 +19,20 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
     If rate-up operator is pulled before 120 limited pity, the pity is lost
     6 copies required to get and then max pot character.
     """
+
+    # Constants
+    SOFT_PITY_BASE_RATE = 0.008  
+    SOFT_PITY_INCREMENT = 0.05
+    HARD_PITY_INTERVAL = 80
+    LIMITED_PITY_INTERVAL = 120
+    DUPLICATE_PITY_INTERVAL = 240
+    FIVE_STAR_RATE = 0.08
+    GUARANTEED_5_STAR_INTERVAL = 10
+
+    SIX_STAR_ARSENAL = 2000
+    FIVE_STAR_ARSENAL = 200
+    FOUR_STAR_ARSENAL = 20
+    ARSENAL_PULL_COST = 1980
 
     limited_6_totals = []
     total_6_totals = []
@@ -172,13 +173,72 @@ def gacha_simulation(pull_quantity = None, pot_quantity = None, arsenal_quantity
     print(f"Mean arsenal pull count: {mean_arsenal_pulls}")
     print("---------------------------------------------")
 
+
+def landmine_simulation():
+    ONE_MIN_CHANCE = 0.008
+    FIVE_MIN_CHANCE = 0.001
+    TEN_MIN_CHANCE = 0.0001
+    FIFTEEN_MIN_CHANCE = 0.00001
+    ONE_MONTH_CHANCE = 0.000001
+
+    safe_messages = [
+        "Phew! Looks like you dodged a bullet... or, well, a mine!",
+        "No landmine in sight! Keep on stepping carefully...",
+        "You made it! For now. No mines, no problem.",
+        "Lucky step! The minefield's playing nice today.",
+        "Survival instincts are on point today. No landmine here!",
+        "You're walking on air—no mines to ruin your day!",
+        "Whoa! That was a close call... but not today, my friend.",
+        "Not today, mine! You're too fast for that explosion!",
+        "Your feet are magic today—no mine, just a clean step.",
+        "Another safe step! You're a minefield pro!"
+    ]
+
+    mine_count = 999999999999999
+
+    print()
+    print("Press enter to take a step in Perlica's minefield!")
+    print("This is a reference to the Perlica Discord Bot - https://discord.com/invite/akendfield")
+    while True:
+        input()
+        roll = random.random()
+        if roll <= ONE_MONTH_CHANCE:
+            print(f"KABOOM! Stepped on a landmine! Timeout for 1 month. ({mine_count} mine(s) remaining)")
+            mine_count -= 1
+            time.sleep(60 * 60 * 24 * 30)
+        elif roll <= FIFTEEN_MIN_CHANCE:
+            print(f"KABOOM! Stepped on a landmine! Timeout for 15 minutes. ({mine_count} mine(s) remaining)")
+            mine_count -= 1
+            time.sleep(15 * 60)
+        elif roll <= TEN_MIN_CHANCE:
+            print(f"KABOOM! Stepped on a landmine! Timeout for 10 minutes. ({mine_count} mine(s) remaining)")
+            mine_count -= 1
+            time.sleep(10 * 60)
+        elif roll <= FIVE_MIN_CHANCE:
+            print(f"KABOOM! Stepped on a landmine! Timeout for 5 minutes. ({mine_count} mine(s) remaining)")
+            mine_count -= 1
+            time.sleep(5 * 60)
+        elif roll <= ONE_MIN_CHANCE:
+            print(f"KABOOM! Stepped on a landmine! Timeout for 1 minute. ({mine_count} mine(s) remaining)")
+            mine_count -= 1
+            time.sleep(1 * 60)
+        else:
+            message = random.choice(safe_messages)
+            print(f"{message}")
+
+        if mine_count <= 0:
+            print("All mines have exploded! Perlica is defenseless! Attackkkkkk!")
+            break 
+
+
 print("\r\nAK Endfield Gacha Simulator\r\n")
 while True:
     print("What would you like to simulate:")
     print("1. Rewards for # of pulls")
     print("2. # of pulls to get X amount of rate-up pots")
     print("3. # of pulls to get X amount of 10x arsenal pulls")
-    choice = int(input("Please enter a number (1, 2, or 3): "))
+    print("4. Landmine Simulator (Join the EF Discord)")
+    choice = int(input("Please enter a number (1, 2, 3, or 4): "))
     val = 0
     match choice:
         case 1:
@@ -187,6 +247,8 @@ while True:
             val = int(input("Please enter number of rate-up pots to simulate: "))
         case 3:
             val = int(input("Please enter number of 10x arsenal pulls to simulate: "))
+        case 4:
+            landmine_simulation()
         case _:
             print("Unknown value, please try again")
 
