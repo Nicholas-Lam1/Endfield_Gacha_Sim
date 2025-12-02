@@ -27,7 +27,7 @@ def gacha_simulation():
     DUPLICATE_PITY_INTERVAL = 240
     FIVE_STAR_RATE = 0.08
     GUARANTEED_5_STAR_INTERVAL = 10
-    SAMPLE_SIZE = 100000
+    SAMPLE_SIZE = 1000000
 
     pulls_to_6_copies = []
 
